@@ -11,9 +11,12 @@
 (global-set-key "\M-e" 'move-end-of-line)
 (global-set-key "\M-\S-a" 'beginning-of-buffer)
 (global-set-key "\M-\S-e" 'end-of-buffer)
-;; ## Copy-paste
+;; ## Selection and copy-paste
 (global-set-key "\M-y" 'yank)
 (global-set-key "\M-\S-y" 'yank-pop)
+; M-w is bound by default to 'kill-ring-save
+(global-set-key "\M-\S-w" 'kill-region)
+(global-set-key "\M- " 'set-mark-command)
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
 (global-set-key "\M-r" 'isearch-backward)
