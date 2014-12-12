@@ -27,5 +27,5 @@
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
 (global-set-key "\M-k" 'kill-line)
-(global-set-key "\M-q" 'keyboard-quit)
+(global-set-key "\M-g" 'keyboard-quit)
 
