@@ -20,6 +20,9 @@
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
 (global-set-key "\M-r" 'isearch-backward)
+;; ## Windows
+(global-set-key "\M-{" (lambda () (interactive) (select-window (previous-window))))
+(global-set-key "\M-}" (lambda () (interactive) (select-window (next-window))))
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
