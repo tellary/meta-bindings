@@ -20,6 +20,9 @@
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
 (global-set-key "\M-r" 'isearch-backward)
+(define-key isearch-mode-map "\M-s" 'isearch-repeat-forward)
+(define-key isearch-mode-map "\M-r" 'isearch-repeat-backward)
+(define-key isearch-mode-map "\M-g" 'isearch-abort)
 ;; ## Windows
 (global-set-key "\M-{" (lambda () (interactive) (select-window (previous-window))))
 (global-set-key "\M-}" (lambda () (interactive) (select-window (next-window))))
