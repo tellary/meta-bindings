@@ -11,12 +11,14 @@
 (global-set-key "\M-e" 'move-end-of-line)
 (global-set-key "\M-\S-a" 'beginning-of-buffer)
 (global-set-key "\M-\S-e" 'end-of-buffer)
-;; ## Selection and copy-paste
+;; ## Selection and copy, cut and paste
 (global-set-key "\M-y" 'yank)
 (global-set-key "\M-\S-y" 'yank-pop)
 ; M-w is bound by default to 'kill-ring-save
 (global-set-key "\M-\S-w" 'kill-region)
 (global-set-key "\M- " 'set-mark-command)
+(global-set-key "\M-d" 'backward-kill-word)
+(global-set-key "\M-\S-d" 'backward-delete-char-untabify)
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
 (global-set-key "\M-r" 'isearch-backward)
