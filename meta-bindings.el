@@ -2,6 +2,7 @@
 (global-set-key "\M-c" 'previous-line)
 (global-set-key "\M-t" 'next-line)
 (global-set-key "\M-n" 'forward-word)
+(define-key markdown-mode-map "\M-n" 'forward-word)
 (global-set-key "\M-h" 'backward-word)
 (global-set-key "\M-\S-c" 'backward-paragraph)
 (global-set-key "\M-\S-t" 'forward-paragraph)
@@ -26,8 +27,17 @@
 (define-key isearch-mode-map "\M-r" 'isearch-repeat-backward)
 (define-key isearch-mode-map "\M-g" 'isearch-abort)
 ;; ## Windows
-(global-set-key "\M-{" (lambda () (interactive) (select-window (previous-window))))
-(global-set-key "\M-}" (lambda () (interactive) (select-window (next-window))))
+(defun select-next-window ()
+  (interactive)
+  (select-window (previous-window)))
+(defun select-previous-window ()
+  (interactive)
+  (select-window (next-window)))
+
+(global-set-key "\M-{" 'select-previous-window)
+(global-set-key "\M-}" 'select-next-window)
+(define-key markdown-mode-map "\M-{" 'select-previous-window)
+(define-key markdown-mode-map "\M-}" 'select-next-window)
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
