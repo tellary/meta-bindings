@@ -29,7 +29,6 @@
 ;; ## Selection and copy, cut and paste
 (global-set-key "\M-y" 'yank)
 (global-set-key "\M-\S-y" 'yank-pop)
-
 ; M-w is bound by default to 'kill-ring-save
 (global-set-key "\M-\S-w" 'kill-region)
 (global-set-key "\M- " 'set-mark-command)
@@ -50,7 +49,6 @@
 (defun select-previous-window ()
   (interactive)
   (select-window (next-window)))
-
 (global-set-key "\M-{" 'select-previous-window)
 (global-set-key "\M-}" 'select-next-window)
 (define-key markdown-mode-map "\M-{" 'select-previous-window)
@@ -68,3 +66,4 @@
 (global-set-key "\M-g" 'keyboard-quit)
 (global-set-key "\M-u" 'universal-argument)
 (global-set-key "\M-\S-x\t" 'indent-rigidly)
+(global-set-key "\M-f" 'find-file)
