@@ -47,6 +47,11 @@
 (define-key markdown-mode-map "\M-{" 'select-previous-window)
 (define-key markdown-mode-map "\M-}" 'select-next-window)
 
+;; ## Buffers
+(global-set-key "\M-b" 'switch-to-buffer)
+(global-set-key "\M-\S-b" 'list-buffers)
+(global-set-key "\M-\S-k" 'kill-buffer)
+
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
