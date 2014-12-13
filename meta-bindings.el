@@ -1,3 +1,12 @@
+;; This keymap is designed for dvorak layout.
+;; It is targeted to maximal use of "<meta>" key as
+;; it is easy to press it with thumb -- the biggest finger on hand.
+;; "h", "n", "c" and "t" keys together with "<meta>" are used for
+;; navigation bindings with directional meaning of
+;; "left", "right", "up" and "down" respectively.
+;; All other key binding are designed to be the same as in
+;; default emacs keymap except that "C-" is replaced with "M-S-" prefix.
+
 ;; ## Navigation
 (global-set-key "\M-c" 'previous-line)
 (global-set-key "\M-t" 'next-line)
