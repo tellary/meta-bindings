@@ -41,6 +41,7 @@
 (define-key isearch-mode-map "\M-s" 'isearch-repeat-forward)
 (define-key isearch-mode-map "\M-r" 'isearch-repeat-backward)
 (define-key isearch-mode-map "\M-g" 'isearch-abort)
+(define-key isearch-mode-map "\M- " 'isearch-exit)
 
 ;; ## Windows
 (defun select-next-window ()
@@ -62,6 +63,7 @@
 ;; ## Quit/Abort
 (global-set-key "\M-g" 'keyboard-quit)
 (define-key minibuffer-local-map "\M-g" 'abort-recursive-edit)
+(define-key minibuffer-local-map "\M- " 'minibuffer-complete-and-exit)
 
 ;; ## Other
 (global-set-key "\M--" 'undo)
