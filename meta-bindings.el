@@ -59,11 +59,14 @@
 (global-set-key "\M-\S-b" 'list-buffers)
 (global-set-key "\M-\S-k" 'kill-buffer)
 
+;; ## Quit/Abort
+(global-set-key "\M-g" 'keyboard-quit)
+(define-key minibuffer-local-map "\M-g" 'abort-recursive-edit)
+
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
 (global-set-key "\M-k" 'kill-line)
-(global-set-key "\M-g" 'keyboard-quit)
 (global-set-key "\M-u" 'universal-argument)
 (global-set-key "\M-\S-x\t" 'indent-rigidly)
 (global-set-key "\M-f" 'find-file)
