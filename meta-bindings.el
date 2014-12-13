@@ -67,3 +67,4 @@
 (global-set-key "\M-k" 'kill-line)
 (global-set-key "\M-g" 'keyboard-quit)
 (global-set-key "\M-u" 'universal-argument)
+(global-set-key "\M-\S-x\t" 'indent-rigidly)
