@@ -12,7 +12,9 @@
 (global-set-key "\M-t" 'next-line)
 (global-set-key "\M-n" 'forward-word)
 (define-key markdown-mode-map "\M-n" 'forward-word)
+(define-key diff-mode-map "\M-n" 'forward-word)
 (global-set-key "\M-h" 'backward-word)
+(define-key diff-mode-map "\M-h" 'backward-word)
 (global-set-key "\M-\S-c" 'backward-paragraph)
 (global-set-key "\M-\S-t" 'forward-paragraph)
 (global-set-key (kbd "M-<up>") 'backward-paragraph)
@@ -20,6 +22,7 @@
 (define-key markdown-mode-map (kbd "M-<up>") 'backward-paragraph)
 (define-key markdown-mode-map (kbd "M-<down>") 'forward-paragraph)
 (global-set-key "\M-\S-n" 'forward-char)
+(define-key diff-mode-map "\M-\S-n" 'forward-char)
 (global-set-key "\M-\S-h" 'backward-char)
 (global-set-key "\M-a" 'move-beginning-of-line)
 (global-set-key "\M-e" 'move-end-of-line)
@@ -54,11 +57,20 @@
 (global-set-key "\M-}" 'select-next-window)
 (define-key markdown-mode-map "\M-{" 'select-previous-window)
 (define-key markdown-mode-map "\M-}" 'select-next-window)
+(define-key diff-mode-map "\M-{" 'select-previous-window)
+(define-key diff-mode-map "\M-}" 'select-next-window)
+
+;; ## Item selection
+(define-key diff-mode-map "\M-." 'diff-hunk-next)
+(define-key diff-mode-map "\M-," 'diff-hunk-prev)
+(define-key diff-mode-map "\M->" 'diff-file-next)
+(define-key diff-mode-map "\M-<" 'diff-file-prev)
 
 ;; ## Buffers
 (global-set-key "\M-b" 'switch-to-buffer)
 (global-set-key "\M-\S-b" 'list-buffers)
 (global-set-key "\M-\S-k" 'kill-buffer)
+(define-key diff-mode-map "\M-\S-k" 'kill-buffer)
 
 ;; ## Quit/Abort
 (global-set-key "\M-g" 'keyboard-quit)
