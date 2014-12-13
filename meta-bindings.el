@@ -37,6 +37,10 @@
 (global-set-key "\M- " 'set-mark-command)
 (global-set-key "\M-d" 'backward-kill-word)
 (global-set-key "\M-\S-d" 'backward-delete-char-untabify)
+; M-i is selected to kill forward, because
+; it is opposite of M-d.
+(global-set-key "\M-i" 'kill-word)
+(global-set-key "\M-\S-i" 'delete-forward-char)
 
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
