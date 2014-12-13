@@ -61,6 +61,8 @@
 (define-key diff-mode-map "\M-}" 'select-next-window)
 
 ;; ## Item selection
+(global-set-key "\M-." 'outline-next-heading)
+(global-set-key "\M-," 'outline-previous-heading)
 (define-key diff-mode-map "\M-." 'diff-hunk-next)
 (define-key diff-mode-map "\M-," 'diff-hunk-prev)
 (define-key diff-mode-map "\M->" 'diff-file-next)
