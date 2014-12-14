@@ -7,40 +7,44 @@
 ;; All other key binding are designed to be the same as in
 ;; default emacs keymap except that "C-" is replaced with "M-S-" prefix.
 
+(setq meta-bindings-map ())
+
 ;; ## Navigation
-(global-set-key "\M-c" 'previous-line)
-(global-set-key "\M-t" 'next-line)
-(global-set-key "\M-n" 'forward-word)
-(define-key markdown-mode-map "\M-n" 'forward-word)
-(define-key diff-mode-map "\M-n" 'forward-word)
-(global-set-key "\M-h" 'backward-word)
-(define-key diff-mode-map "\M-h" 'backward-word)
-(global-set-key "\M-\S-c" 'backward-paragraph)
-(global-set-key "\M-\S-t" 'forward-paragraph)
-(global-set-key (kbd "M-<up>") 'backward-paragraph)
-(global-set-key (kbd "M-<down>") 'forward-paragraph)
-(define-key markdown-mode-map (kbd "M-<up>") 'backward-paragraph)
-(define-key markdown-mode-map (kbd "M-<down>") 'forward-paragraph)
-(global-set-key "\M-\S-n" 'forward-char)
-(define-key diff-mode-map "\M-\S-n" 'forward-char)
-(global-set-key "\M-\S-h" 'backward-char)
-(global-set-key "\M-a" 'move-beginning-of-line)
-(global-set-key "\M-e" 'move-end-of-line)
-(global-set-key "\M-\S-a" 'beginning-of-buffer)
-(global-set-key "\M-\S-e" 'end-of-buffer)
+(setq meta-bindings-map 
+      (append meta-bindings-map 
+              '(
+                ("\M-c" previous-line)
+                ("\M-t" next-line)
+                ("\M-n" forward-word)
+                ("\M-h" backward-word)
+                ("\M-\S-c" backward-paragraph)
+                ("\M-\S-t" forward-paragraph)
+                ((kbd "M-<up>") backward-paragraph)
+                ((kbd "M-<down>") forward-paragraph)
+                ("\M-\S-n" forward-char)
+                ("\M-\S-h" backward-char)
+                ("\M-a" move-beginning-of-line)
+                ("\M-e" move-end-of-line)
+                ("\M-\S-a" beginning-of-buffer)
+                ("\M-\S-e" end-of-buffer)
+                )))
 
 ;; ## Selection and copy, cut and paste
-(global-set-key "\M-y" 'yank)
-(global-set-key "\M-\S-y" 'yank-pop)
-; M-w is bound by default to 'kill-ring-save
-(global-set-key "\M-\S-w" 'kill-region)
-(global-set-key "\M- " 'set-mark-command)
-(global-set-key "\M-d" 'backward-kill-word)
-(global-set-key "\M-\S-d" 'backward-delete-char-untabify)
-; M-i is selected to kill forward, because
-; it is opposite of M-d.
-(global-set-key "\M-i" 'kill-word)
-(global-set-key "\M-\S-i" 'delete-forward-char)
+(setq meta-bindings-map
+      (append meta-bindings-map 
+              '(
+                ("\M-y" yank)
+                ("\M-\S-y" yank-pop)
+                ;; M-w is bound by default to 'kill-ring-save
+                ("\M-\S-w" kill-region)
+                ("\M- " set-mark-command)
+                ("\M-d" backward-kill-word)
+                ("\M-\S-d" backward-delete-char-untabify)
+                ;; M-i is selected to kill forward, because
+                ;; it is opposite of M-d.
+                ("\M-i" kill-word)
+                ("\M-\S-i" delete-forward-char)
+                )))
 
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
@@ -57,26 +61,28 @@
 (defun select-previous-window ()
   (interactive)
   (select-window (next-window)))
-(global-set-key "\M-{" 'select-previous-window)
-(global-set-key "\M-}" 'select-next-window)
-(define-key markdown-mode-map "\M-{" 'select-previous-window)
-(define-key markdown-mode-map "\M-}" 'select-next-window)
-(define-key diff-mode-map "\M-{" 'select-previous-window)
-(define-key diff-mode-map "\M-}" 'select-next-window)
+(add-to-list 'meta-bindings-map '("\M-{" select-previous-window))
+(add-to-list 'meta-bindings-map '("\M-}" select-next-window))
 
 ;; ## Item selection
-(global-set-key "\M-." 'outline-next-heading)
-(global-set-key "\M-," 'outline-previous-heading)
-(define-key diff-mode-map "\M-." 'diff-hunk-next)
-(define-key diff-mode-map "\M-," 'diff-hunk-prev)
-(define-key diff-mode-map "\M->" 'diff-file-next)
-(define-key diff-mode-map "\M-<" 'diff-file-prev)
+(add-to-list 'meta-bindings-map '("\M-." outline-next-heading))
+(add-to-list 'meta-bindings-map '("\M-," outline-previous-heading))
+(setq meta-bindings-diff-mode-map 
+      '(
+        ("\M-." diff-hunk-next)
+        ("\M-," diff-hunk-prev)
+        ("\M->" diff-file-next)
+        ("\M-<" diff-file-prev)
+        ))
 
 ;; ## Buffers
-(global-set-key "\M-b" 'switch-to-buffer)
-(global-set-key "\M-\S-b" 'list-buffers)
-(global-set-key "\M-\S-k" 'kill-buffer)
-(define-key diff-mode-map "\M-\S-k" 'kill-buffer)
+(setq meta-bindings-map 
+      (append meta-bindings-map
+              '(
+                ("\M-b" switch-to-buffer)
+                ("\M-\S-b" list-buffers)
+                ("\M-\S-k" kill-buffer)
+                )))
 
 ;; ## Quit/Abort
 (global-set-key "\M-g" 'keyboard-quit)
@@ -90,3 +96,17 @@
 (global-set-key "\M-u" 'universal-argument)
 (global-set-key "\M-\S-x\t" 'indent-rigidly)
 (global-set-key "\M-f" 'find-file)
+
+(defun unbind(mode-map map)
+  (dolist (def map)
+    (define-key mode-map (eval (car def)) nil)))
+(dolist (def meta-bindings-map)
+  (print (eval (car def)))
+  (global-set-key (eval (car def)) (car (cdr def))))
+
+(add-hook 'diff-mode-hook 
+          (lambda () 
+            (unbind diff-mode-map meta-bindings-map)
+            (dolist (def meta-bindings-map-diff-mode-map)
+              (define-key diff-mode-map (eval (car def)) (car (cdr def))))))
+(add-hook 'markdown-mode-hook (lambda () (unbind markdown-mode-map meta-bindings-map)))
