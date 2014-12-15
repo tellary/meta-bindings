@@ -101,7 +101,6 @@
   (dolist (def map)
     (define-key mode-map (eval (car def)) nil)))
 (dolist (def meta-bindings-map)
-  (print (eval (car def)))
   (global-set-key (eval (car def)) (car (cdr def))))
 
 (add-hook 'diff-mode-hook 
@@ -110,3 +109,5 @@
             (dolist (def meta-bindings-map-diff-mode-map)
               (define-key diff-mode-map (eval (car def)) (car (cdr def))))))
 (add-hook 'markdown-mode-hook (lambda () (unbind markdown-mode-map meta-bindings-map)))
+(add-hook 'nxml-mode-hook (lambda() (unbind nxml-mode-map meta-bindings-map)))
+(add-hook 'dired-mode-hook (lambda() (unbind dired-mode-map meta-bindings-map)))
