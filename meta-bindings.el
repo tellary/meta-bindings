@@ -89,6 +89,9 @@
 (define-key minibuffer-local-map "\M-g" 'abort-recursive-edit)
 (define-key minibuffer-local-map "\M- " 'minibuffer-complete-and-exit)
 
+;; ## Completion
+(add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
+
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
