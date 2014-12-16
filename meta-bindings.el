@@ -109,7 +109,7 @@
 (add-hook 'diff-mode-hook 
           (lambda () 
             (unbind diff-mode-map meta-bindings-map)
-            (dolist (def meta-bindings-map-diff-mode-map)
+            (dolist (def meta-bindings-diff-mode-map)
               (define-key diff-mode-map (eval (car def)) (car (cdr def))))))
 (add-hook 'markdown-mode-hook (lambda () (unbind markdown-mode-map meta-bindings-map)))
 (add-hook 'nxml-mode-hook (lambda() (unbind nxml-mode-map meta-bindings-map)))
