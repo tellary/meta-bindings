@@ -61,8 +61,16 @@
 (defun select-previous-window ()
   (interactive)
   (select-window (next-window)))
-(add-to-list 'meta-bindings-map '("\M-{" select-previous-window))
-(add-to-list 'meta-bindings-map '("\M-}" select-next-window))
+(setq meta-bindings-map (append meta-bindings-map
+                                '(
+                                  ("\M-0" delete-window)
+                                  ("\M-1" delete-other-windows)
+                                  ("\M-2" split-window-below)
+                                  ("\M-3" split-window-right)
+                                  ("\M-{" select-previous-window)
+                                  ("\M-}" select-next-window)
+                                  )))
+
 
 ;; ## Item selection
 (add-to-list 'meta-bindings-map '("\M-." outline-next-heading))
