@@ -43,7 +43,7 @@
                 ;; M-i is selected to kill forward, because
                 ;; it is opposite of M-d.
                 ("\M-i" kill-word)
-                ("\M-\S-i" delete-forward-char)
+                ("\M-\S-i" delete-char)
                 )))
 
 ;; ## Search
