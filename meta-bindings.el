@@ -53,6 +53,8 @@
 (define-key isearch-mode-map "\M-r" 'isearch-repeat-backward)
 (define-key isearch-mode-map "\M-g" 'isearch-abort)
 (define-key isearch-mode-map "\M- " 'isearch-exit)
+;; Unbind "\M-n" to be forward-word, but not history navigation
+(define-key isearch-mode-map "\M-n" nil)
 
 ;; ## Windows
 (defun select-next-window ()
