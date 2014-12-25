@@ -47,8 +47,8 @@
                 )))
 
 ;; ## Search
-(global-set-key "\M-s" 'isearch-forward)
-(global-set-key "\M-r" 'isearch-backward)
+(global-set-key "\M-s" 'isearch-forward-regexp)
+(global-set-key "\M-r" 'isearch-backward-regexp)
 (setq meta-bindings-isearch-mode-map
       '(
         ("\M-s" isearch-repeat-forward)
