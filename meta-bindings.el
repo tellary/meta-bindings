@@ -116,6 +116,7 @@
 (dolist (def meta-bindings-map)
   (global-set-key (eval (car def)) (car (cdr def))))
 
+(unbind minibuffer-local-map meta-bindings-map)
 (add-hook 'diff-mode-hook 
           (lambda () 
             (unbind diff-mode-map meta-bindings-map)
@@ -124,3 +125,4 @@
 (add-hook 'markdown-mode-hook (lambda () (unbind markdown-mode-map meta-bindings-map)))
 (add-hook 'nxml-mode-hook (lambda() (unbind nxml-mode-map meta-bindings-map)))
 (add-hook 'dired-mode-hook (lambda() (unbind dired-mode-map meta-bindings-map)))
+(add-hook 'grep-mode-hook (lambda() (unbind grep-mode-map meta-bindings-map)))
