@@ -49,12 +49,13 @@
 ;; ## Search
 (global-set-key "\M-s" 'isearch-forward)
 (global-set-key "\M-r" 'isearch-backward)
-(define-key isearch-mode-map "\M-s" 'isearch-repeat-forward)
-(define-key isearch-mode-map "\M-r" 'isearch-repeat-backward)
-(define-key isearch-mode-map "\M-g" 'isearch-abort)
-(define-key isearch-mode-map "\M- " 'isearch-exit)
-;; Unbind "\M-n" to be forward-word, but not history navigation
-(define-key isearch-mode-map "\M-n" nil)
+(setq meta-bindings-isearch-mode-map
+      '(
+        ("\M-s" isearch-repeat-forward)
+        ("\M-r" isearch-repeat-backward)
+        ("\M-g" isearch-abort)
+        ("\M- " isearch-exit)
+))
 
 ;; ## Windows
 (defun select-next-window ()
@@ -126,3 +127,8 @@
 (add-hook 'nxml-mode-hook (lambda() (unbind nxml-mode-map meta-bindings-map)))
 (add-hook 'dired-mode-hook (lambda() (unbind dired-mode-map meta-bindings-map)))
 (add-hook 'grep-mode-hook (lambda() (unbind grep-mode-map meta-bindings-map)))
+(add-hook 'isearch-mode-hook
+          (lambda()
+            (unbind isearch-mode-map meta-bindings-map)
+            (dolist (def meta-bindings-isearch-mode-map)
+              (define-key isearch-mode-map (eval (car def)) (car (cdr def))))))
