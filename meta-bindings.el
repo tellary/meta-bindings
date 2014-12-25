@@ -68,8 +68,8 @@
                                 '(
                                   ("\M-0" delete-window)
                                   ("\M-1" delete-other-windows)
-                                  ("\M-2" split-window-below)
-                                  ("\M-3" split-window-right)
+                                  ("\M-2" split-window-vertically)
+                                  ("\M-3" split-window-horizontally)
                                   ("\M-{" select-previous-window)
                                   ("\M-}" select-next-window)
                                   )))
