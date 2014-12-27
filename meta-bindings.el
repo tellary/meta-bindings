@@ -55,6 +55,7 @@
         ("\M-r" isearch-repeat-backward)
         ("\M-g" isearch-abort)
         ("\M- " isearch-exit)
+        ("\M-w" isearch-yank-word-or-char)
 ))
 
 ;; ## Windows
