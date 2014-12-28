@@ -133,3 +133,5 @@
             (unbind isearch-mode-map meta-bindings-map)
             (dolist (def meta-bindings-isearch-mode-map)
               (define-key isearch-mode-map (eval (car def)) (car (cdr def))))))
+(add-hook 'eshell-mode-hook (lambda() (unbind eshell-mode-map meta-bindings-map)))
+(add-hook 'compilation-mode-hook (lambda() (unbind compilation-mode-map meta-bindings-map)))
