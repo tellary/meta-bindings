@@ -104,6 +104,18 @@
 ;; ## Completion
 (add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
 
+;; ## Git
+(setq meta-bindings-git-rebase-mode-map
+      '(
+        ("\M-\S-c" git-rebase-move-line-up)
+        ("\M-\S-t" git-rebase-move-line-down)
+        ))
+(setq meta-bindings-git-commit-mode-map
+      '(
+        ("\M-," git-commit-prev-message)
+        ("\M-." git-commit-next-message)
+        ))
+
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
@@ -112,27 +124,37 @@
 (global-set-key "\M-\S-x\t" 'indent-rigidly)
 (global-set-key "\M-f" 'find-file)
 
-(defun unbind(mode-map map)
+(defun meta-unbind(mode-map map)
   (dolist (def map)
     (define-key mode-map (eval (car def)) nil)))
+(defun meta-bind(mode-map map)
+  (dolist (def map)
+    (define-key mode-map (eval (car def)) (car (cdr def)))))
+
 (dolist (def meta-bindings-map)
   (global-set-key (eval (car def)) (car (cdr def))))
 
-(unbind minibuffer-local-map meta-bindings-map)
+(meta-unbind minibuffer-local-map meta-bindings-map)
 (add-hook 'diff-mode-hook 
           (lambda () 
-            (unbind diff-mode-map meta-bindings-map)
-            (dolist (def meta-bindings-diff-mode-map)
-              (define-key diff-mode-map (eval (car def)) (car (cdr def))))))
-(add-hook 'markdown-mode-hook (lambda () (unbind markdown-mode-map meta-bindings-map)))
-(add-hook 'nxml-mode-hook (lambda() (unbind nxml-mode-map meta-bindings-map)))
-(add-hook 'dired-mode-hook (lambda() (unbind dired-mode-map meta-bindings-map)))
-(add-hook 'grep-mode-hook (lambda() (unbind grep-mode-map meta-bindings-map)))
+            (meta-unbind diff-mode-map meta-bindings-map)
+            (meta-bind diff-mode-map meta-bindings-diff-mode-map)))
+(add-hook 'markdown-mode-hook (lambda () (meta-unbind markdown-mode-map meta-bindings-map)))
+(add-hook 'nxml-mode-hook (lambda() (meta-unbind nxml-mode-map meta-bindings-map)))
+(add-hook 'dired-mode-hook (lambda() (meta-unbind dired-mode-map meta-bindings-map)))
+(add-hook 'grep-mode-hook (lambda() (meta-unbind grep-mode-map meta-bindings-map)))
 (add-hook 'isearch-mode-hook
           (lambda()
-            (unbind isearch-mode-map meta-bindings-map)
-            (dolist (def meta-bindings-isearch-mode-map)
-              (define-key isearch-mode-map (eval (car def)) (car (cdr def))))))
-(add-hook 'eshell-mode-hook (lambda() (unbind eshell-mode-map meta-bindings-map)))
-(add-hook 'compilation-mode-hook (lambda() (unbind compilation-mode-map meta-bindings-map)))
-(add-hook 'vc-dir-mode-hook (lambda() (unbind vc-dir-mode-map meta-bindings-map)))
+            (meta-unbind isearch-mode-map meta-bindings-map)
+            (meta-bind isearch-mode-map meta-bindings-isearch-mode-map)))
+(add-hook 'eshell-mode-hook (lambda() (meta-unbind eshell-mode-map meta-bindings-map)))
+(add-hook 'compilation-mode-hook (lambda() (meta-unbind compilation-mode-map meta-bindings-map)))
+(add-hook 'vc-dir-mode-hook (lambda() (meta-unbind vc-dir-mode-map meta-bindings-map)))
+(add-hook 'git-rebase-mode-hook
+          (lambda()
+            (meta-unbind git-rebase-mode-map meta-bindings-map)
+            (meta-bind git-rebase-mode-map meta-bindings-git-rebase-mode-map)))
+(add-hook 'git-commit-mode-hook
+          (lambda()
+            (meta-unbind git-commit-mode-map meta-bindings-map)
+            (meta-bind git-commit-mode-map meta-bindings-git-commit-mode-map)))
