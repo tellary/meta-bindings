@@ -116,6 +116,12 @@
         ("\M-." git-commit-next-message)
         ))
 
+;; ## Shell
+(setq meta-bindings-eshell-mode-map
+      '(
+        ("\M-a" eshell-bol)
+        ))
+
 ;; ## Other
 (global-set-key "\M--" 'undo)
 (global-set-key "\M-\S-s" 'save-buffer)
@@ -147,7 +153,10 @@
           (lambda()
             (meta-unbind isearch-mode-map meta-bindings-map)
             (meta-bind isearch-mode-map meta-bindings-isearch-mode-map)))
-(add-hook 'eshell-mode-hook (lambda() (meta-unbind eshell-mode-map meta-bindings-map)))
+(add-hook 'eshell-mode-hook
+          (lambda() 
+            (meta-unbind eshell-mode-map meta-bindings-map)
+            (meta-bind eshell-mode-map meta-bindings-eshell-mode-map)))
 (add-hook 'compilation-mode-hook (lambda() (meta-unbind compilation-mode-map meta-bindings-map)))
 (add-hook 'vc-dir-mode-hook (lambda() (meta-unbind vc-dir-mode-map meta-bindings-map)))
 (add-hook 'git-rebase-mode-hook
