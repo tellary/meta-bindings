@@ -95,6 +95,12 @@
                 ("\M-\S-b" list-buffers)
                 ("\M-\S-k" kill-buffer)
                 )))
+;; Setup binding of "\M-\S-k" to say "Done" to current buffer
+;; to properly close it when serving emacsclient
+(setq meta-bindings-server-mode-map (make-sparse-keymap))
+(define-key meta-bindings-server-mode-map "\M-\S-k" 'server-edit)
+(add-to-list 'minor-mode-map-alist `(server-buffer-clients . ,meta-bindings-server-mode-map))
+
 
 ;; ## Quit/Abort
 (global-set-key "\M-g" 'keyboard-quit)
