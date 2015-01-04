@@ -57,7 +57,7 @@
         ("\M-g" isearch-abort)
         ("\M- " isearch-exit)
         ("\M-w" isearch-yank-word-or-char)
-))
+        ))
 
 ;; ## Windows
 (defun select-next-window ()
@@ -105,11 +105,28 @@
 
 ;; ## Quit/Abort
 (global-set-key "\M-g" 'keyboard-quit)
-(define-key minibuffer-local-map "\M-g" 'abort-recursive-edit)
-(define-key minibuffer-local-map "\M- " 'minibuffer-complete-and-exit)
+(setq meta-bindings-minibuffer-local-map
+      '(
+        ("\M-g" abort-recursive-edit)
+        ("\M- " 'minibuffer-complete-and-exit)
+        ))
 
 ;; ## Completion
 (add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
+
+;; ## History
+(setq meta-bindings-minibuffer-local-map
+      (append meta-bindings-minibuffer-local-map
+              '(
+                ("\M-c" previous-history-element)
+                ("\M-t" next-history-element)
+                )))
+(setq meta-bindings-isearch-mode-map
+      (append meta-bindings-isearch-mode-map
+              '(
+                ("\M-c" isearch-ring-retreat)
+                ("\M-t" isearch-ring-advance)
+                )))
 
 ;; ## Git
 (setq meta-bindings-git-rebase-mode-map
@@ -148,6 +165,7 @@
   (global-set-key (eval (car def)) (car (cdr def))))
 
 (meta-unbind minibuffer-local-map meta-bindings-map)
+(meta-bind minibuffer-local-map meta-bindings-minibuffer-local-map)
 (add-hook 'diff-mode-hook 
           (lambda () 
             (meta-unbind diff-mode-map meta-bindings-map)
