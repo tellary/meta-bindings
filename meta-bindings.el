@@ -147,12 +147,16 @@
         ))
 
 ;; ## Other
-(global-set-key "\M--" 'undo)
-(global-set-key "\M-\S-s" 'save-buffer)
-(global-set-key "\M-k" 'kill-line)
-(global-set-key "\M-u" 'universal-argument)
-(global-set-key "\M-\S-x\t" 'indent-rigidly)
-(global-set-key "\M-f" 'find-file)
+(setq meta-bindings-map
+      (append meta-bindings-map
+              '(
+                ("\M--" undo)
+                ("\M-\S-s" save-buffer)
+                ("\M-k" kill-line)
+                ("\M-u" universal-argument)
+                ("\M-\S-x\t" indent-rigidly)
+                ("\M-f" find-file)
+                )))
 
 (defun meta-unbind(mode-map map)
   (dolist (def map)
