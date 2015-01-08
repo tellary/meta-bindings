@@ -28,6 +28,7 @@
                 ("\M-\S-a" beginning-of-buffer)
                 ("\M-\S-e" end-of-buffer)
                 ("\M-\S-v" scroll-up-command)
+                ("\M-l" goto-line)
                 )))
 
 ;; ## Selection and copy, cut and paste
