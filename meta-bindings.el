@@ -114,6 +114,10 @@
 
 ;; ## Completion
 (add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
+(setq meta-bindings-etags-select-mode-map
+      '(
+        ("\M-g" etags-select-quit)
+        ))
 
 ;; ## History
 (setq meta-bindings-minibuffer-local-map
@@ -197,3 +201,7 @@
           (lambda()
             (meta-unbind git-commit-mode-map meta-bindings-map)
             (meta-bind git-commit-mode-map meta-bindings-git-commit-mode-map)))
+(add-hook 'etags-select-mode-hook 
+          (lambda() 
+            (meta-unbind etags-select-mode-map meta-bindings-map)
+            (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
