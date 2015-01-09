@@ -120,17 +120,25 @@
         ))
 
 ;; ## History
+;; 
+;; The reason why history navigation is bound with M-S-<up>/<down>
+;; is that these binding are used for paragraph navigation.
+;; When I do search, I want to adjust location of cursor a little,
+;; I don't need paragraph navigation for that.
+;;
+;; At the same time using <up> and <down> in history navigation binding
+;; is natural.
 (setq meta-bindings-minibuffer-local-map
       (append meta-bindings-minibuffer-local-map
               '(
-                ("\M-c" previous-history-element)
-                ("\M-t" next-history-element)
+                ("\M-\S-c" previous-history-element)
+                ("\M-\S-t" next-history-element)
                 )))
 (setq meta-bindings-isearch-mode-map
       (append meta-bindings-isearch-mode-map
               '(
-                ("\M-c" isearch-ring-retreat)
-                ("\M-t" isearch-ring-advance)
+                ("\M-\S-c" isearch-ring-retreat)
+                ("\M-\S-t" isearch-ring-advance)
                 )))
 
 ;; ## Git
