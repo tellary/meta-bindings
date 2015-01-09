@@ -49,8 +49,8 @@
                 )))
 
 ;; ## Search
-(global-set-key "\M-s" 'isearch-forward-regexp)
-(global-set-key "\M-r" 'isearch-backward-regexp)
+(add-to-list 'meta-bindings-map '("\M-s" isearch-forward-regexp))
+(add-to-list 'meta-bindings-map '("\M-r" isearch-backward-regexp))
 (setq meta-bindings-isearch-mode-map
       '(
         ("\M-s" isearch-repeat-forward)
@@ -140,6 +140,11 @@
                 ("\M-\S-c" isearch-ring-retreat)
                 ("\M-\S-t" isearch-ring-advance)
                 )))
+(setq meta-bindings-eshell-mode-map
+      '(
+        ("\M-\S-r" eshell-previous-matching-input)
+        ("\M-\S-s" eshell-next-matching-input)
+        ))
 
 ;; ## Git
 (setq meta-bindings-git-rebase-mode-map
@@ -155,9 +160,10 @@
 
 ;; ## Shell
 (setq meta-bindings-eshell-mode-map
-      '(
-        ("\M-a" eshell-bol)
-        ))
+      (append meta-bindings-eshell-mode-map
+       '(
+         ("\M-a" eshell-bol)
+         )))
 
 ;; ## Other
 (setq meta-bindings-map
