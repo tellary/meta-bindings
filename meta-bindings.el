@@ -139,10 +139,47 @@
                 ("\M-\S-c" isearch-ring-retreat)
                 ("\M-\S-t" isearch-ring-advance)
                 )))
+
+(defun meta-bindings-eshell-is-cmdline() 
+  "Check if point is on eshell command line"
+  (let ((p (point)))
+    (beginning-of-line)
+    (let ((result (looking-at eshell-prompt-regexp)))
+          (goto-char p)
+          result)))
+
+(defun meta-bindings-eshell-previous-input()
+  "Cycle eshell history backwards if in command line.
+Go backward paragraph if not."
+  (interactive)
+  (if (eq last-command 'meta-bindings-eshell-previous-input)
+      (setq last-command 'eshell-previous-matching-input-from-input))
+  (if (meta-bindings-eshell-is-cmdline)
+    (if (not (eq last-command 'backward-paragraph))
+        (eshell-previous-matching-input-from-input 1)
+      (setq this-command 'backward-paragraph))
+    (setq this-command 'backward-paragraph)
+    (backward-paragraph)))
+
+(defun meta-bindings-eshell-next-input()
+  "Cycle eshell history forward if in command line.
+Go forward paragraph if not."
+  (interactive)
+  (if (eq last-command 'meta-bindings-eshell-next-input)
+      (setq last-command 'eshell-next-matching-input-from-input))
+  (if (meta-bindings-eshell-is-cmdline)
+      (if (not (eq last-command 'forward-paragraph))
+          (eshell-next-matching-input-from-input 1)
+        (setq this-command 'forward-paragraph))
+    (setq this-command 'forward-paragraph)
+    (forward-paragraph)))
+
 (setq meta-bindings-eshell-mode-map
       '(
         ("\M-\S-r" eshell-previous-matching-input)
         ("\M-\S-s" eshell-next-matching-input)
+        ("\M-\S-c" meta-bindings-eshell-previous-input)
+        ("\M-\S-t" meta-bindings-eshell-next-input)
         ))
 
 ;; ## Git
