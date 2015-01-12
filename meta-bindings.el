@@ -174,6 +174,7 @@
                 ("\M-u" universal-argument)
                 ("\M-\S-x\t" indent-rigidly)
                 ("\M-f" find-file)
+                ("\M-\\" toggle-input-method)
                 )))
 
 (defun meta-unbind(mode-map map)
