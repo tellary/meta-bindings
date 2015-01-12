@@ -109,7 +109,6 @@
 (setq meta-bindings-minibuffer-local-map
       '(
         ("\M-g" abort-recursive-edit)
-        ("\M- " 'minibuffer-complete-and-exit)
         ))
 
 ;; ## Completion
