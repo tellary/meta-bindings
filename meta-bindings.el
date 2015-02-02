@@ -256,3 +256,5 @@ Go forward paragraph if not."
           (lambda() 
             (meta-unbind etags-select-mode-map meta-bindings-map)
             (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
+(add-hook 'shell-mode-hook (lambda() (meta-unbind shell-mode-map meta-bindings-map)))
+          
