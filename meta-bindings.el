@@ -201,6 +201,13 @@ Go forward paragraph if not."
          ("\M-a" eshell-bol)
          )))
 
+;; ## Scala
+(setq meta-bindings-ensime-inf-mode-map
+      '(
+        ("\M-\S-c" comint-previous-input)
+        ("\M-\S-t" comint-next-input)
+        ))
+
 ;; ## Other
 (setq meta-bindings-map
       (append meta-bindings-map
@@ -256,5 +263,8 @@ Go forward paragraph if not."
           (lambda() 
             (meta-unbind etags-select-mode-map meta-bindings-map)
             (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
-(add-hook 'shell-mode-hook (lambda() (meta-unbind shell-mode-map meta-bindings-map)))
-          
+(add-hook 'shell-mode-hook (lambda() (meta-unbind shell-mode-map meta-bindings-map)))         
+(add-hook 'ensime-inf-mode-hook
+          (lambda()
+            (meta-unbind ensime-inf-mode-map meta-bindings-map)
+            (meta-bind ensime-inf-mode-map meta-bindings-ensime-inf-mode-map)))
