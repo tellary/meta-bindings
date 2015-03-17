@@ -219,6 +219,7 @@ Go forward paragraph if not."
                 ("\M-\S-x\t" indent-rigidly)
                 ("\M-f" find-file)
                 ("\M-\\" toggle-input-method)
+                ("\M-\S-f" auto-revert-tail-mode)
                 )))
 
 (defun meta-unbind(mode-map map)
