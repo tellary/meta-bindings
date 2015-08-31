@@ -208,6 +208,13 @@ Go forward paragraph if not."
         ("\M-\S-t" comint-next-input)
         ))
 
+;; ## Node.js
+(setq meta-bindings-nodejs-repl-mode-map
+      '(
+        ("\M-\S-c" comint-previous-input)
+        ("\M-\S-t" comint-next-input)
+        ))
+
 ;; ## Other
 (setq meta-bindings-map
       (append meta-bindings-map
@@ -269,3 +276,7 @@ Go forward paragraph if not."
           (lambda()
             (meta-unbind ensime-inf-mode-map meta-bindings-map)
             (meta-bind ensime-inf-mode-map meta-bindings-ensime-inf-mode-map)))
+(add-hook 'nodejs-repl-mode-hook
+          (lambda()
+            (meta-unbind nodejs-repl-mode-map meta-bindings-map)
+            (meta-bind nodejs-repl-mode-map meta-bindings-ensime-inf-mode-map)))
