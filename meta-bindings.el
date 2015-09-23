@@ -241,6 +241,9 @@ Go forward paragraph if not."
 
 (meta-unbind minibuffer-local-map meta-bindings-map)
 (meta-bind minibuffer-local-map meta-bindings-minibuffer-local-map)
+
+(meta-bind Buffer-menu-mode-map meta-bindings-map)
+
 (add-hook 'diff-mode-hook 
           (lambda () 
             (meta-unbind diff-mode-map meta-bindings-map)
