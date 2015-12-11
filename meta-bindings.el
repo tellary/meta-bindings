@@ -228,6 +228,7 @@ Go forward paragraph if not."
                 ("\M-\\" toggle-input-method)
                 ("\M-\S-f" auto-revert-tail-mode)
                 )))
+(define-key key-translation-map (kbd "S-SPC") (kbd "RET"))
 
 (defun meta-unbind(mode-map map)
   (dolist (def map)
