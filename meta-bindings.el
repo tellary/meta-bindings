@@ -215,6 +215,14 @@ Go forward paragraph if not."
         ("\M-\S-t" comint-next-input)
         ))
 
+;; S-SPC as RET
+(define-key key-translation-map (kbd "S-SPC") (kbd "RET"))
+(setq meta-bindings-etags-select-mode-map
+      (append meta-bindings-etags-select-mode-map
+              '(
+                ((kbd "RET") etags-select-goto-tag)
+                )))
+
 ;; ## Other
 (setq meta-bindings-map
       (append meta-bindings-map
@@ -228,7 +236,6 @@ Go forward paragraph if not."
                 ("\M-\\" toggle-input-method)
                 ("\M-\S-f" auto-revert-tail-mode)
                 )))
-(define-key key-translation-map (kbd "S-SPC") (kbd "RET"))
 
 (defun meta-unbind(mode-map map)
   (dolist (def map)
