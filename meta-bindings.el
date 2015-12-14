@@ -200,6 +200,13 @@ Go forward paragraph if not."
         ("\M-\S-t" comint-next-input)
         ))
 
+;; ## Haskell
+(setq meta-bindings-haskell-interactive-mode-map
+      '(
+        ((kbd "<up>") haskell-interactive-mode-history-previous)
+        ((kbd "<down>") haskell-interactive-mode-history-next)
+        ))
+
 ;; S-SPC as RET
 (define-key key-translation-map (kbd "S-SPC") (kbd "RET"))
 (setq meta-bindings-etags-select-mode-map
@@ -275,3 +282,11 @@ Go forward paragraph if not."
           (lambda()
             (meta-unbind nodejs-repl-mode-map meta-bindings-map)
             (meta-bind nodejs-repl-mode-map meta-bindings-ensime-inf-mode-map)))
+(add-hook 'haskell-interactive-mode-hook
+          (lambda()
+            (meta-unbind
+             haskell-interactive-mode-map
+             meta-bindings-map)
+            (meta-bind
+             haskell-interactive-mode-map
+             meta-bindings-haskell-interactive-mode-map)))
