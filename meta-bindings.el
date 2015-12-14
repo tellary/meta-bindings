@@ -9,6 +9,7 @@
 
 (setq meta-bindings-map ())
 
+
 ;; ## Navigation
 (setq meta-bindings-map 
       (append meta-bindings-map 
@@ -23,13 +24,13 @@
                 ((kbd "M-<down>") forward-paragraph)
                 ("\M-\S-n" forward-char)
                 ("\M-\S-h" backward-char)
-                ("\M-a" move-beginning-of-line)
-                ("\M-e" move-end-of-line)
                 ("\M-\S-a" beginning-of-buffer)
                 ("\M-\S-e" end-of-buffer)
                 ("\M-\S-v" scroll-up-command)
                 ("\M-l" goto-line)
                 )))
+(define-key key-translation-map "\M-a" "\C-a")
+(define-key key-translation-map "\M-e" "\C-e")
 
 ;; ## Selection and copy, cut and paste
 (setq meta-bindings-map
@@ -55,10 +56,10 @@
       '(
         ("\M-s" isearch-repeat-forward)
         ("\M-r" isearch-repeat-backward)
-        ("\M-g" isearch-abort)
         ("\M- " isearch-exit)
         ("\M-w" isearch-yank-word-or-char)
         ))
+(define-key key-translation-map "\M-g" "\C-g")
 
 ;; ## Windows
 (defun select-next-window ()
@@ -103,19 +104,11 @@
 (define-key meta-bindings-server-mode-map "\M-\S-k" 'server-edit)
 (add-to-list 'minor-mode-map-alist `(server-buffer-clients . ,meta-bindings-server-mode-map))
 
-
-;; ## Quit/Abort
-(global-set-key "\M-g" 'keyboard-quit)
-(setq meta-bindings-minibuffer-local-map
-      '(
-        ("\M-g" abort-recursive-edit)
-        ))
-
 ;; ## Completion
 (add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
 (setq meta-bindings-etags-select-mode-map
       '(
-        ("\M-g" etags-select-quit)
+        ("\C-g" etags-select-quit)
         ))
 
 ;; ## History
@@ -128,11 +121,10 @@
 ;; At the same time using <up> and <down> in history navigation binding
 ;; is natural.
 (setq meta-bindings-minibuffer-local-map
-      (append meta-bindings-minibuffer-local-map
-              '(
-                ("\M-\S-c" previous-history-element)
-                ("\M-\S-t" next-history-element)
-                )))
+      '(
+        ("\M-\S-c" previous-history-element)
+        ("\M-\S-t" next-history-element)
+        ))
 (setq meta-bindings-isearch-mode-map
       (append meta-bindings-isearch-mode-map
               '(
@@ -194,13 +186,6 @@ Go forward paragraph if not."
         ("\M-." git-commit-next-message)
         ))
 
-;; ## Shell
-(setq meta-bindings-eshell-mode-map
-      (append meta-bindings-eshell-mode-map
-       '(
-         ("\M-a" eshell-bol)
-         )))
-
 ;; ## Scala
 (setq meta-bindings-ensime-inf-mode-map
       '(
@@ -249,7 +234,6 @@ Go forward paragraph if not."
 
 (meta-unbind minibuffer-local-map meta-bindings-map)
 (meta-bind minibuffer-local-map meta-bindings-minibuffer-local-map)
-
 (meta-bind Buffer-menu-mode-map meta-bindings-map)
 
 (add-hook 'diff-mode-hook 
