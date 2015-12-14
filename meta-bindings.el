@@ -201,10 +201,38 @@ Go forward paragraph if not."
         ))
 
 ;; ## Haskell
+(defun meta-bindings-haskell-interactive-mode-history-previous (arg)
+  (interactive "*p")
+  (if (haskell-interactive-at-prompt)
+      (haskell-interactive-mode-history-previous arg)
+    (let ((prev-prompt-pos
+           (or
+            (save-excursion (haskell-interactive-mode-prompt-previous))
+            0))
+          (prev-paragraph-pos
+           (save-excursion (backward-paragraph) (point))))
+      (if (> prev-prompt-pos prev-paragraph-pos)
+          (goto-char prev-prompt-pos)
+        (goto-char prev-paragraph-pos)))))
+
+(defun meta-bindings-haskell-interactive-mode-history-next (arg)
+  (interactive "*p")
+  (if (haskell-interactive-at-prompt)
+      (haskell-interactive-mode-history-previous arg)
+    (let ((next-prompt-pos
+           (or
+            (save-excursion (haskell-interactive-mode-prompt-next))
+            (point-max)))
+          (next-paragraph-pos
+           (save-excursion (forward-paragraph) (point))))
+      (if (< next-prompt-pos next-paragraph-pos)
+          (goto-char next-prompt-pos)
+        (goto-char next-paragraph-pos)))))
+
 (setq meta-bindings-haskell-interactive-mode-map
       '(
-        ((kbd "<up>") haskell-interactive-mode-history-previous)
-        ((kbd "<down>") haskell-interactive-mode-history-next)
+        ("\M-\S-c" meta-bindings-haskell-interactive-mode-history-previous)
+        ("\M-\S-t" meta-bindings-haskell-interactive-mode-history-next)
         ))
 
 ;; S-SPC as RET
