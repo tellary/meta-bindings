@@ -186,48 +186,110 @@ Go forward paragraph if not."
         ("\M-." git-commit-next-message)
         ))
 
-;; ## Scala
-(setq meta-bindings-ensime-inf-mode-map
-      '(
-        ("\M-\S-c" comint-previous-input)
-        ("\M-\S-t" comint-next-input)
-        ))
-
-;; ## Node.js
-(setq meta-bindings-nodejs-repl-mode-map
-      '(
-        ("\M-\S-c" comint-previous-input)
-        ("\M-\S-t" comint-next-input)
-        ))
-
-;; ## Haskell
-(defun meta-bindings-haskell-interactive-mode-history-previous (arg)
-  (interactive "*p")
-  (if (haskell-interactive-at-prompt)
-      (haskell-interactive-mode-history-previous arg)
+;; Functions to handle prev history or paragraph
+(defun meta-bindings-prev-history-or-paragraph-or-prompt
+    (is-prompt-f prev-history-f prev-prompt-pos-f prev-paragraph-pos-f)
+  (if (funcall is-prompt-f)
+      (funcall prev-history-f)
     (let ((prev-prompt-pos
            (or
-            (save-excursion (haskell-interactive-mode-prompt-previous))
+            (funcall prev-prompt-pos-f)
             0))
           (prev-paragraph-pos
-           (save-excursion (backward-paragraph) (point))))
+           (or
+            (funcall prev-paragraph-pos-f)
+            0)))
       (if (> prev-prompt-pos prev-paragraph-pos)
           (goto-char prev-prompt-pos)
         (goto-char prev-paragraph-pos)))))
 
-(defun meta-bindings-haskell-interactive-mode-history-next (arg)
-  (interactive "*p")
-  (if (haskell-interactive-at-prompt)
-      (haskell-interactive-mode-history-previous arg)
+(defun meta-bindings-next-history-or-paragraph-or-prompt
+    (is-prompt-f next-history-f next-prompt-pos-f next-paragraph-pos-f)
+  (if (funcall is-prompt-f)
+      (funcall next-history-f)
     (let ((next-prompt-pos
            (or
-            (save-excursion (haskell-interactive-mode-prompt-next))
+            (funcall next-prompt-pos-f)
             (point-max)))
           (next-paragraph-pos
-           (save-excursion (forward-paragraph) (point))))
+           (or
+            (funcall next-paragraph-pos-f)
+            (point-max))))
       (if (< next-prompt-pos next-paragraph-pos)
           (goto-char next-prompt-pos)
         (goto-char next-paragraph-pos)))))
+
+;; ## Common for comint based modes (Scala, Python, R, Node.js)
+(defun meta-bindings-comint-is-input-line ()
+  (save-excursion
+    (search-backward-regexp "^")
+    (get-text-property (point) 'field)))
+
+(defun meta-bindings-comint-previous-input ()
+  (interactive)
+  (meta-bindings-prev-history-or-paragraph-or-prompt
+   'comint-after-pmark-p
+   (lambda() (comint-previous-input 1))
+   (lambda() (save-excursion (comint-previous-prompt 1)))
+   (lambda() (save-excursion 
+               (backward-paragraph)
+               (if (save-excursion
+                     (previous-line)
+                     (meta-bindings-comint-is-input-line))
+                   (progn 
+                     (previous-line)
+                     (comint-bol)))
+               (point)))))
+
+(defun meta-bindings-comint-next-input ()
+  (interactive)
+  (meta-bindings-next-history-or-paragraph-or-prompt
+   'comint-after-pmark-p
+   (lambda() (comint-next-input 1))
+   (lambda() (save-excursion (comint-next-prompt 1)))
+   (lambda() (save-excursion
+               (end-of-line)
+               (forward-paragraph)
+               (point)))))
+
+(setq meta-bindings-comint-mode-map
+      '(
+        ("\M-\S-c" meta-bindings-comint-previous-input)
+        ("\M-\S-t" meta-bindings-comint-next-input)))
+
+;; Reset paragraph settings to defaults to make 
+;; `meta-bindings-comint-(next|prev)-input` work with paragraphs
+;; properly. An inferior-ess-mode tries to override this.
+(add-hook 'inferior-ess-mode-hook
+          (lambda()
+            (setq paragraph-start 
+                  (car (get 'paragraph-start 'standard-value)))
+            (setq paragraph-separate 
+                  (car (get 'paragraph-separate 'standard-value)))))
+
+;; ## Python
+;; Disable compilation-shell-minor-mode to avoid clash
+;; for `("\M-{" select-previous-window)` and `("\M-}" select-next-window)`
+;; bindings
+(add-hook 'inferior-python-mode-hook
+          (lambda() (compilation-shell-minor-mode -1)))
+
+;; ## Haskell
+(defun meta-bindings-haskell-interactive-mode-history-previous (arg)
+  (interactive "*p")
+  (meta-bindings-prev-history-or-paragraph-or-prompt
+   'haskell-interactive-at-prompt
+   (lambda() (haskell-interactive-mode-history-previous arg))
+   (lambda() (save-excursion (haskell-interactive-mode-prompt-previous)))
+   (lambda() (save-excursion (backward-paragraph) (point)))))
+
+(defun meta-bindings-haskell-interactive-mode-history-next (arg)
+  (interactive "*p")
+  (meta-bindings-next-history-or-paragraph-or-prompt
+   'haskell-interactive-at-prompt
+   (lambda() (haskell-interactive-mode-history-next arg))
+   (lambda() (save-excursion (haskell-interactive-mode-prompt-next)))
+   (lambda() (save-excursion (forward-paragraph) (point)))))
 
 (setq meta-bindings-haskell-interactive-mode-map
       '(
@@ -302,14 +364,10 @@ Go forward paragraph if not."
             (meta-unbind etags-select-mode-map meta-bindings-map)
             (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
 (add-hook 'shell-mode-hook (lambda() (meta-unbind shell-mode-map meta-bindings-map)))         
-(add-hook 'ensime-inf-mode-hook
+(add-hook 'comint-mode-hook
           (lambda()
-            (meta-unbind ensime-inf-mode-map meta-bindings-map)
-            (meta-bind ensime-inf-mode-map meta-bindings-ensime-inf-mode-map)))
-(add-hook 'nodejs-repl-mode-hook
-          (lambda()
-            (meta-unbind nodejs-repl-mode-map meta-bindings-map)
-            (meta-bind nodejs-repl-mode-map meta-bindings-ensime-inf-mode-map)))
+            (meta-unbind comint-mode-map meta-bindings-map)
+            (meta-bind comint-mode-map meta-bindings-comint-mode-map)))
 (add-hook 'haskell-interactive-mode-hook
           (lambda()
             (meta-unbind
