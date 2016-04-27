@@ -376,3 +376,4 @@ Go forward paragraph if not."
             (meta-bind
              haskell-interactive-mode-map
              meta-bindings-haskell-interactive-mode-map)))
+(add-hook 'Man-mode-hook (lambda () (meta-unbind Man-mode-map meta-bindings-map)))
