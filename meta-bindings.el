@@ -363,7 +363,10 @@ Go forward paragraph if not."
           (lambda() 
             (meta-unbind etags-select-mode-map meta-bindings-map)
             (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
-(add-hook 'shell-mode-hook (lambda() (meta-unbind shell-mode-map meta-bindings-map)))         
+(add-hook 'shell-mode-hook 
+          (lambda() 
+            (meta-unbind shell-mode-map meta-bindings-map)
+            (meta-bind shell-mode-map meta-bindings-comint-mode-map)))
 (add-hook 'comint-mode-hook
           (lambda()
             (meta-unbind comint-mode-map meta-bindings-map)
