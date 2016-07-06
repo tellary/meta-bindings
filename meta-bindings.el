@@ -64,10 +64,10 @@
 ;; ## Windows
 (defun select-next-window ()
   (interactive)
-  (select-window (previous-window)))
+  (select-window (next-window nil nil t)))
 (defun select-previous-window ()
   (interactive)
-  (select-window (next-window)))
+  (select-window (previous-window nil nil t)))
 (setq meta-bindings-map (append meta-bindings-map
                                 '(
                                   ("\M-0" delete-window)
