@@ -64,10 +64,14 @@
 ;; ## Windows
 (defun select-next-window ()
   (interactive)
-  (select-window (next-window nil nil t)))
+  (let ((w (next-window nil nil t)))
+    (select-window w)
+    (select-frame-set-input-focus (window-frame w))))
 (defun select-previous-window ()
   (interactive)
-  (select-window (previous-window nil nil t)))
+  (let ((w (previous-window nil nil t)))
+    (select-window w)
+    (select-frame-set-input-focus (window-frame w))))
 (setq meta-bindings-map (append meta-bindings-map
                                 '(
                                   ("\M-0" delete-window)
