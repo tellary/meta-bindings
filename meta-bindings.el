@@ -78,6 +78,7 @@
                                   ("\M-1" delete-other-windows)
                                   ("\M-2" split-window-vertically)
                                   ("\M-3" split-window-horizontally)
+                                  ("\M-8" set-80-columns)
                                   ("\M-{" select-previous-window)
                                   ("\M-}" select-next-window)
                                   )))
