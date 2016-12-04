@@ -81,8 +81,9 @@
                                   ("\M-8" set-80-columns)
                                   ("\M-{" select-previous-window)
                                   ("\M-}" select-next-window)
+                                  ((kbd "<left>") select-previous-window)
+                                  ((kbd "<right>") select-next-window)
                                   )))
-
 
 ;; ## Item selection
 (add-to-list 'meta-bindings-map '("\M-." outline-next-heading))
