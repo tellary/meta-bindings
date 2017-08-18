@@ -277,7 +277,7 @@ Go forward paragraph if not."
 ;; Disable compilation-shell-minor-mode to avoid clash
 ;; for `("\M-{" select-previous-window)` and `("\M-}" select-next-window)`
 ;; bindings
-(add-hook 'inferior-python-mode-hook
+(add-hook 'compilation-shell-minor-mode-hook
           (lambda() (compilation-shell-minor-mode -1)))
 
 ;; ## Haskell
