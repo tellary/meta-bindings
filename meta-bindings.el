@@ -32,6 +32,13 @@
 (define-key key-translation-map "\M-a" "\C-a")
 (define-key key-translation-map "\M-e" "\C-e")
 
+(setq meta-bindings-hexl-mode-map
+      '(
+        ("\M-\S-n" hexl-forward-char)
+        ("\M-\S-h" hexl-backward-char)
+        )
+      )
+
 ;; ## Selection and copy, cut and paste
 (setq meta-bindings-map
       (append meta-bindings-map 
@@ -385,4 +392,13 @@ Go forward paragraph if not."
             (meta-bind
              haskell-interactive-mode-map
              meta-bindings-haskell-interactive-mode-map)))
-(add-hook 'Man-mode-hook (lambda () (meta-unbind Man-mode-map meta-bindings-map)))
+(add-hook 'Man-mode-hook
+          (lambda () (meta-unbind Man-mode-map meta-bindings-map)))
+(add-hook 'hexl-mode-hook
+          (lambda ()
+            (meta-unbind hexl-mode-map meta-bindings-map)
+            (meta-bind   hexl-mode-map meta-bindings-hexl-mode-map)
+            (hexl-follow-line)
+            (hexl-activate-ruler)
+            )
+          )
