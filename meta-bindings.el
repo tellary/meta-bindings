@@ -9,7 +9,6 @@
 
 (setq meta-bindings-map ())
 
-
 ;; ## Navigation
 (setq meta-bindings-map 
       (append meta-bindings-map 
@@ -332,6 +331,38 @@ Go forward paragraph if not."
                 ("\M-\S-f" auto-revert-tail-mode)
                 )))
 
+;; mode Agda2
+(setq meta-bindings-agda2-mode-map
+      '(
+        ;; M-a tranlated to C-a
+        ("\M-o\C-a" agda2-auto-maybe-all)
+        ("\M-<"     agda2-previous-goal)
+        ("\M-o\M-c" agda2-make-case)
+        ("\M-o\M-d" agda2-infer-type-maybe-toplevel)
+        ;; M-e tranlated to C-e
+        ("\M-o\C-e" agda2-show-context)
+        ("\M->"     agda2-next-goal)
+        ("\M-o\M-h" agda2-helper-function-type)
+        ("\M-o\M-l" agda2-load)
+        ((kbd "M-o RET")  agda2-elaborate-give)
+        ("\M-o\M-n" agda2-compute-normalised-maybe-toplevel)
+        ("\M-o\M-o" agda2-module-contents-maybe-toplevel)
+        ("\M-o\M-r" agda2-refine)
+        ("\M-o\M-s" agda2-solve-maybe-all)
+        ("\M-o\M-t" agda2-goal-type)
+        ("\M-o\M-w" agda2-why-in-scope-maybe-toplevel)
+        ("\M-o\M-z" agda2-search-about-toplevel)
+        ("\M-o\M- " agda2-give)
+        ("\M-o\M-," agda2-goal-and-context)
+        ("\M-o\M-." agda2-goal-and-context-and-inferred)
+        ("\M-o\M-;" agda2-goal-and-context-and-checked)
+        ("\M-o\M-=" agda2-show-constraints)
+        ("\M-o\M-?" agda2-show-goals)
+        ("\M-,"     agda2-go-back)
+        ("\M-."     agda2-goto-definition-keyboard)
+        )
+      )
+
 (defun meta-unbind(mode-map map)
   (dolist (def map)
     (define-key mode-map (eval (car def)) nil)))
@@ -400,5 +431,11 @@ Go forward paragraph if not."
             (meta-bind   hexl-mode-map meta-bindings-hexl-mode-map)
             (hexl-follow-line)
             (hexl-activate-ruler)
+            )
+          )
+(add-hook 'agda2-mode-hook
+          (lambda ()
+            (meta-unbind agda2-mode-map meta-bindings-map)
+            (meta-bind   agda2-mode-map meta-bindings-agda2-mode-map)
             )
           )
