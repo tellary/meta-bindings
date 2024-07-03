@@ -179,13 +179,17 @@ Go forward paragraph if not."
     (forward-paragraph)))
 
 (setq meta-bindings-eshell-mode-map
-      '(
-        ("\M-\S-r" eshell-previous-matching-input)
-        ("\M-\S-s" eshell-next-matching-input)
-        ("\M-\S-c" meta-bindings-eshell-previous-input)
+      '(("\M-\S-c" meta-bindings-eshell-previous-input)
         ("\M-\S-t" meta-bindings-eshell-next-input)
         ))
-
+(setq meta-bindings-eshell-hist-mode-map
+      '(("\M-\S-r" eshell-previous-matching-input)
+        ("\M-\S-s" eshell-next-matching-input)
+        ))
+(setq meta-bindings-eshell-hist-mode-unbind-map
+      '(("\M-r" nil)
+        ("\M-s" nil)
+        ))      
 ;; ## Git
 (setq meta-bindings-git-rebase-mode-map
       '(
@@ -393,7 +397,11 @@ Go forward paragraph if not."
 (add-hook 'eshell-mode-hook
           (lambda() 
             (meta-unbind eshell-mode-map meta-bindings-map)
-            (meta-bind eshell-mode-map meta-bindings-eshell-mode-map)))
+            (meta-unbind eshell-hist-mode-map
+                         meta-bindings-eshell-hist-mode-unbind-map)
+            (meta-bind eshell-mode-map meta-bindings-eshell-mode-map)
+            (meta-bind eshell-hist-mode-map
+                       meta-bindings-eshell-hist-mode-map)))
 (add-hook 'compilation-mode-hook (lambda() (meta-unbind compilation-mode-map meta-bindings-map)))
 (add-hook 'vc-dir-mode-hook (lambda() (meta-unbind vc-dir-mode-map meta-bindings-map)))
 (add-hook 'git-rebase-mode-hook
