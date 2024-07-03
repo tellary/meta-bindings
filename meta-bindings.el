@@ -318,6 +318,7 @@ Go forward paragraph if not."
                 )))
 
 ;; ## Other
+(keymap-global-unset "M-X")
 (setq meta-bindings-map
       (append meta-bindings-map
               '(
