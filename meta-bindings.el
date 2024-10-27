@@ -200,10 +200,6 @@ Go forward paragraph if not."
       '(("\M-\S-r" eshell-previous-matching-input)
         ("\M-\S-s" eshell-next-matching-input)
         ))
-(setq meta-bindings-eshell-hist-mode-unbind-map
-      '(("\M-r" nil)
-        ("\M-s" nil)
-        ))      
 ;; ## Git
 (setq meta-bindings-git-rebase-mode-map
       '(
@@ -411,8 +407,7 @@ Go forward paragraph if not."
 (add-hook 'eshell-mode-hook
           (lambda() 
             (meta-unbind eshell-mode-map meta-bindings-map)
-            (meta-unbind eshell-hist-mode-map
-                         meta-bindings-eshell-hist-mode-unbind-map)
+            (meta-unbind eshell-hist-mode-map meta-bindings-map)
             (meta-bind eshell-mode-map meta-bindings-eshell-mode-map)
             (meta-bind eshell-hist-mode-map
                        meta-bindings-eshell-hist-mode-map)))
