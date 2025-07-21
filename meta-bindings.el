@@ -116,12 +116,33 @@
 (define-key meta-bindings-server-mode-map "\M-\S-k" 'server-edit)
 (add-to-list 'minor-mode-map-alist `(server-buffer-clients . ,meta-bindings-server-mode-map))
 
-;; ## Completion
-(add-to-list 'meta-bindings-map '("\M-\S-g" etags-select-find-tag-at-point))
+;; ## Code navigation and completion
+(add-to-list 'meta-bindings-map '("\M-\S-g" lsp-find-definition))
+(setq meta-bindings-lsp-mode-map
+      '(
+        ("\M-\S-f" lsp-describe-thing-at-point)
+        ))
 (setq meta-bindings-etags-select-mode-map
       '(
         ("\C-g" etags-select-quit)
         ))
+(with-eval-after-load 'company
+  (define-key company-active-map "\M-g" 'company-abort)
+  (define-key company-active-map (kbd "M-t") 'company-select-next-or-abort)
+  (define-key company-active-map (kbd "M-c") 'company-select-previous-or-abort)
+  (define-key company-active-map "\M-\S-f" 'company-show-doc-buffer)
+  (define-key company-active-map "\M-w" 'company-show-location)
+  (define-key company-active-map "\M-s" 'company-search-candidates)
+  (define-key company-active-map "\M-\S-s" 'company-filter-candidates)
+
+  (define-key company-search-map (kbd "M-t") 'company-select-next-or-abort)
+  (define-key company-search-map (kbd "M-c") 'company-select-previous-or-abort)
+  (define-key company-search-map (kbd "M-d") 'company-search-delete-char)
+  (define-key company-search-map "\M-g" 'company-search-abort)
+  (define-key company-search-map "\M-s" 'company-search-repeat-forward)
+  (define-key company-search-map "\M-r" 'company-search-repeat-backward)
+  (define-key company-search-map "\M-o" 'company-search-toggle-filtering)
+  )
 
 ;; ## History
 ;; 
@@ -455,6 +476,10 @@ Go forward paragraph if not."
           (lambda() 
             (meta-unbind etags-select-mode-map meta-bindings-map)
             (meta-bind etags-select-mode-map meta-bindings-etags-select-mode-map)))
+(add-hook 'lsp-mode-hook 
+          (lambda() 
+            (meta-unbind lsp-mode-map meta-bindings-map)
+            (meta-bind lsp-mode-map meta-bindings-lsp-mode-map)))
 (add-hook 'shell-mode-hook 
           (lambda() 
             (meta-unbind shell-mode-map meta-bindings-map)
