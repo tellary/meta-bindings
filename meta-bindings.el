@@ -48,6 +48,8 @@
   (if arg
       (backward-forward-previous-location)
     (set-mark-command nil)))
+(global-set-key (kbd "M-o M-h") 'backward-forward-previous-location)
+(global-set-key (kbd "M-o M-n") 'backward-forward-next-location)
 
 ;; ## Selection and copy, cut and paste
 (setq meta-bindings-map
@@ -57,7 +59,7 @@
                 ("\M-\S-y" yank-pop)
                 ;; M-w is bound by default to 'kill-ring-save
                 ("\M-\S-w" kill-region)
-                ("\M- " set-mark-or-backward)
+                ("\M- " set-mark-command)
                 ("\M-d" backward-kill-word)
                 ("\M-\S-d" backward-delete-char-untabify)
                 ;; M-i is selected to kill forward, because
