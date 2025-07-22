@@ -38,6 +38,17 @@
         )
       )
 
+(require 'backward-forward)
+(backward-forward-mode t)
+(advice-add 'select-next-window :before #'backward-forward-push-mark-wrapper)
+(advice-add 'select-previous-window :before #'backward-forward-push-mark-wrapper)
+
+(defun set-mark-or-backward (&optional arg)
+  (interactive "P")
+  (if arg
+      (backward-forward-previous-location)
+    (set-mark-command nil)))
+
 ;; ## Selection and copy, cut and paste
 (setq meta-bindings-map
       (append meta-bindings-map 
@@ -46,7 +57,7 @@
                 ("\M-\S-y" yank-pop)
                 ;; M-w is bound by default to 'kill-ring-save
                 ("\M-\S-w" kill-region)
-                ("\M- " set-mark-command)
+                ("\M- " set-mark-or-backward)
                 ("\M-d" backward-kill-word)
                 ("\M-\S-d" backward-delete-char-untabify)
                 ;; M-i is selected to kill forward, because
