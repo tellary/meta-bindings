@@ -117,7 +117,7 @@
 (add-to-list 'minor-mode-map-alist `(server-buffer-clients . ,meta-bindings-server-mode-map))
 
 ;; ## Code navigation and completion
-(add-to-list 'meta-bindings-map '("\M-\S-g" lsp-find-definition))
+(add-to-list 'meta-bindings-map '("\M-\S-g" xref-find-definitions))
 (setq meta-bindings-lsp-mode-map
       '(
         ("\M-\S-f" lsp-describe-thing-at-point)
