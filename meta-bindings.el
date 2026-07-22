@@ -525,3 +525,9 @@ Go forward paragraph if not."
             (meta-bind   agda2-mode-map meta-bindings-agda2-mode-map)
             )
           )
+(add-hook 'org-mode-hook
+          (lambda ()
+            (meta-unbind org-mode-map meta-bindings-map)
+;;            (meta-bind   org-mode-map meta-bindings-org-mode-map)
+            )
+          )
